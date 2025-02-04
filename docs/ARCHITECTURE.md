@@ -1,4 +1,3 @@
-
 ## Component Overview
 
 - **Program.cs**: Entry point that configures the WebHost with tunnel transport
@@ -16,3 +15,7 @@ The system supports two transport types:
 2. **WebSockets**: Alternative transport using WebSocket protocol
 
 Each transport type is handled by its respective connection context class, which manages the underlying connection details and protocol-specific behaviors.
+
+## Detailed Connection Flow
+
+![Backend Connection Sequence](images/backend_sequence.png)
