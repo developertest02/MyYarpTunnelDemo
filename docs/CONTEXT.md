@@ -124,3 +124,34 @@ The `TunnelOptions` class provides configuration settings for the tunnel impleme
      - HTTP/2 (default)
 
 This configuration system allows for flexible deployment scenarios and can be adjusted based on specific performance and scaling requirements.
+
+## WebSocketConnectionContext
+
+The `WebSocketConnectionContext` class extends `HttpConnection` to provide WebSocket-specific connection handling. It implements a specialized connection context for WebSocket-based communication.
+
+### Key Features
+
+1. **WebSocket Management**
+   - Manages underlying WebSocket connections
+   - Implements keep-alive functionality (5-second interval)
+   - Handles WebSocket lifecycle (connection, abortion, disposal)
+
+2. **Connection Configuration**
+   - Skips negotiation phase for direct WebSocket connections
+   - Uses binary transfer format for efficient data transmission
+   - Configures custom WebSocket factory for connection creation
+
+3. **Connection Control**
+   - Provides cancellation support for connection termination
+   - Implements graceful and forced abortion mechanisms
+   - Manages connection disposal and cleanup
+
+### Connection Establishment
+
+The class provides a static `ConnectAsync` method that:
+- Creates a new ClientWebSocket instance
+- Configures WebSocket options and keep-alive settings
+- Establishes the WebSocket connection
+- Initializes the connection context
+
+This implementation is particularly suited for scenarios requiring real-time, bi-directional communication over WebSocket protocols, providing a reliable and efficient transport mechanism.
