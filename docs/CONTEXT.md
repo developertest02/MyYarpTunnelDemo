@@ -67,3 +67,60 @@ The `TrackLifetimeConnectionContext` is a wrapper class that decorates an existi
    - Preserves transport layer access
 
 This implementation is particularly useful for scenarios where monitoring connection lifetime is crucial, such as connection pooling, resource cleanup, or diagnostic purposes.
+
+## TunnelConnectionListener
+
+The `TunnelConnectionListener` is a core component that manages connections to a proxy server. It implements `IConnectionListener` and handles the creation, maintenance, and lifecycle of tunnel connections.
+
+### Key Features
+
+1. **Connection Management**
+   - Enforces connection limits through a semaphore
+   - Tracks active connections using a concurrent dictionary
+   - Supports both WebSocket and HTTP/2 transport types
+
+2. **Connection Handling**
+   - Implements automatic retry logic for failed connections
+   - Manages connection lifecycle and cleanup
+   - Provides graceful shutdown capabilities
+
+3. **Transport Configuration**
+   - Uses optimized HTTP handler settings for long-lived connections
+   - Supports multiple concurrent HTTP/2 connections
+   - Configures infinite connection pooling timeouts
+
+### Connection Acceptance
+
+The listener implements a robust `AcceptAsync` flow that:
+- Enforces connection limits
+- Establishes new connections with retry capability
+- Tracks connection lifetime
+- Automatically releases resources when connections complete
+
+## TunnelConnectionListenerFactory
+
+The `TunnelConnectionListenerFactory` is a factory class that creates instances of `TunnelConnectionListener`. It implements `IConnectionListenerFactory` to integrate with ASP.NET Core's connection handling infrastructure.
+
+### Responsibilities
+
+- Creates new TunnelConnectionListener instances
+- Manages tunnel options configuration
+- Binds listeners to specific endpoints
+
+## TunnelOptions
+
+The `TunnelOptions` class provides configuration settings for the tunnel implementation.
+
+### Configuration Properties
+
+1. **MaxConnectionCount**
+   - Controls the maximum number of concurrent connections
+   - Defaults to 10 connections
+
+2. **Transport**
+   - Specifies the transport protocol to use
+   - Supports two types:
+     - WebSockets
+     - HTTP/2 (default)
+
+This configuration system allows for flexible deployment scenarios and can be adjusted based on specific performance and scaling requirements.
