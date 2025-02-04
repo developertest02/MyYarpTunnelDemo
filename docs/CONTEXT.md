@@ -38,3 +38,32 @@ The class provides a static `ConnectAsync` method that:
 4. Handles the HTTP response and stream management
 
 This implementation is particularly useful for scenarios requiring long-lived HTTP connections with bi-directional communication capabilities, such as tunneling or streaming applications.
+
+## TrackLifetimeConnectionContext
+
+The `TrackLifetimeConnectionContext` is a wrapper class that decorates an existing `ConnectionContext` to track its lifetime. This class serves a specific monitoring purpose in the transport layer.
+
+### Purpose
+
+- Acts as a decorator for an underlying connection context
+- Primarily exists to monitor and track the lifetime of connections
+- Provides execution state tracking through a TaskCompletionSource
+
+### Implementation Details
+
+1. **Connection Delegation**
+   - Forwards all connection operations to the underlying connection
+   - Maintains transparency by implementing the full ConnectionContext interface
+   - Preserves all original connection features and capabilities
+
+2. **Lifetime Tracking**
+   - Exposes an `ExecutionTask` that completes when the connection is disposed
+   - Enables external components to monitor connection lifetime
+   - Helps in resource management and connection state observation
+
+3. **Connection Properties**
+   - Delegates all property access (ConnectionId, Features, Items, etc.)
+   - Maintains connection endpoints (local and remote)
+   - Preserves transport layer access
+
+This implementation is particularly useful for scenarios where monitoring connection lifetime is crucial, such as connection pooling, resource cleanup, or diagnostic purposes.
